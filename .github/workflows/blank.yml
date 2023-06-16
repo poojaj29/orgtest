@@ -1,0 +1,39 @@
+name: Docker Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: SSH setup
+        uses: appleboy/ssh-action@master
+        with:
+          host: <EC2_INSTANCE_IP>
+          username: <SSH_USERNAME>
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Build and transfer Docker image
+        run: |
+          docker build -t myapp .
+          docker save myapp:latest > myapp.tar
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar <SSH_USERNAME>@<EC2_INSTANCE_IP>:~/
+
+      - name: SSH command
+        uses: appleboy/ssh-action@master
+        with:
+          host: <EC2_INSTANCE_IP>
+          username: <SSH_USERNAME>
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop myapp || true
+            docker rm myapp || true
+            docker load -i ~/myapp.tar
+            docker run -d --name myapp -p 80:80 myapp:latest
