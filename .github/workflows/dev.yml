@@ -18,7 +18,7 @@ jobs:
         with:
           host: <EC2_INSTANCE_IP>
           username: <SSH_USERNAME>
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: nslookup ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Build and transfer Docker image
         run: |
