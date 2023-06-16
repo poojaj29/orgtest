@@ -16,7 +16,7 @@ jobs:
       - name: SSH setup
         uses: appleboy/ssh-action@master
         with:
-          host: nslookup <EC2_INSTANCE_IP>
+          host:  <EC2_INSTANCE_IP>
           username: <SSH_USERNAME>
           key:  ${{ secrets.SSH_PRIVATE_KEY }}
 
