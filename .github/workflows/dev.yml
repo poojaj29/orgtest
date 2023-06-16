@@ -16,9 +16,9 @@ jobs:
       - name: SSH setup
         uses: appleboy/ssh-action@master
         with:
-          host: <EC2_INSTANCE_IP>
+          host: nslookup <EC2_INSTANCE_IP>
           username: <SSH_USERNAME>
-          key: nslookup ${{ secrets.SSH_PRIVATE_KEY }}
+          key:  ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Build and transfer Docker image
         run: |
