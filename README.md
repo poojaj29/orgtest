@@ -6,7 +6,7 @@
 3. Update organization config
 3. Call Agent Service to send any message on Verity
 
-## Installation
+## Installation Step
 
 ```bash
 $ npm install
