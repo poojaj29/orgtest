@@ -18,6 +18,7 @@ RUN yarn build
 
 # Passing in --only=production ensures that only the production dependencies are installed.
 # This ensures that the node_modules directory is as optimized as possible.
+COPY . .
 RUN yarn --prod
 
 ###################
