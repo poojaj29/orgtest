@@ -20,11 +20,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key:  ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Build and transfer Docker image
-        run: |
-          docker build -t myapp .
-          docker save myapp:latest > myapp.tar
-          scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar <SSH_USERNAME>@<EC2_INSTANCE_IP>:~/
+      - name: Build Docker image
+        run: docker build -t myapp .
+        
+      - name: Save Docker image
+        run: docker save myapp:latest > myapp.tar
+        
+      - name: Transfer Docker image
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar <SSH_USERNAME>@<EC2_INSTANCE_IP>:~/
 
       - name: SSH command
         uses: appleboy/ssh-action@master
