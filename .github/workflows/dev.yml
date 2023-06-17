@@ -16,8 +16,8 @@ jobs:
       - name: SSH setup
         uses: appleboy/ssh-action@master
         with:
-          host:  <EC2_INSTANCE_IP>
-          username: <SSH_USERNAME>
+          host:  ${{ secrets.EC2_INSTANCE_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
           key:  ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Build and transfer Docker image
@@ -29,8 +29,8 @@ jobs:
       - name: SSH command
         uses: appleboy/ssh-action@master
         with:
-          host: <EC2_INSTANCE_IP>
-          username: <SSH_USERNAME>
+          host: ${{ secrets.EC2_INSTANCE_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker stop myapp || true
