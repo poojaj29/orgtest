@@ -31,7 +31,7 @@ FROM node:lts-alpine
 COPY . .
 COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY . .
-COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build ${{ github.workspace }}/dist .
 
 
 EXPOSE 3006
