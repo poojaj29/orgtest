@@ -14,7 +14,7 @@ COPY --chown=node:node package*.json ./
 COPY --chown=node:node yarn.lock ./
 
 # Install app dependencies using the `npm ci` command instead of `npm install`
-RUN npm ci
+RUN npm install
 
 # Bundle app source
 COPY --chown=node:node . .
