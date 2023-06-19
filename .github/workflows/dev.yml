@@ -27,7 +27,7 @@ jobs:
         run: docker save myapp:latest > myapp.tar
         
       - name: Transfer Docker image
-        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar <SSH_USERNAME>@<EC2_INSTANCE_IP>:~/
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar ${{ secrets.SSH_USERNAME }}@${{ secrets.EC2_INSTANCE_IP }}:~/
 
       - name: SSH command
         uses: appleboy/ssh-action@master
