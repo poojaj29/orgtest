@@ -20,6 +20,7 @@ RUN yarn build
 # This ensures that the node_modules directory is as optimized as possible.
 COPY . .
 RUN yarn --prod
+RUN ls -la
 
 ###################
 # PRODUCTION
