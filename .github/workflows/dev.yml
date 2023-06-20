@@ -3,7 +3,7 @@ name: Docker Deploy
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   deploy:
@@ -12,37 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
-      - name: Echo secrets
-        run: |
-          echo "Host ${{ secrets.EC2_INSTANCE_IP }}" | sed 's/./& /g'
-          echo "Username ${{ secrets.SSH_USERNAME }}" | sed 's/./& /g'
-          echo "Key ${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/./& /g'
-          echo "Passphrase ${{ secrets.SERVER_PASSPHRASE }}" | sed 's/./& /g'
 
-      - name: Build Docker image
-        run: docker build -t myapp .
-        
-      - name: Save Docker image
-        run: docker save myapp:latest > myapp.tar
-        
-      - name: Transfer Docker image
-        uses: garygrossgarten/github-action-scp@release
+      - name: SSH setup
+        uses: appleboy/ssh-action@master
         with:
-          local: "myapp.tar"
-          remote: "/usr/bin/myapp/myapp.tar"
           host: ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
-          uses: appleboy/scp-action@v0.1.3
-     #  with:
-      #    host:  ${{ secrets.EC2_INSTANCE_IP }}
-      #    username: ${{ secrets.SSH_USERNAME }}
-      #    key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #    passphrase: ${{ secrets.SERVER_PASSPHRASE }}
-      #    source: "myapp.tar"
-      #    target: "/usr/bin/myapp"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Build and transfer Docker image
+        run: |
+          docker build -t myapp .
+          docker save myapp:latest > myapp.tar
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar ${{ secrets.SSH_USERNAME }}@${{ secrets.EC2_INSTANCE_IP }}:~/
 
       - name: SSH command
         uses: appleboy/ssh-action@master
@@ -50,7 +32,6 @@ jobs:
           host: ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
             docker stop myapp || true
             docker rm myapp || true
