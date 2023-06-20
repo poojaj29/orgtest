@@ -19,6 +19,7 @@ jobs:
           host: ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
 
       - name: Build and transfer Docker image
         run: |
@@ -32,6 +33,7 @@ jobs:
           host: ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
             docker stop myapp || true
             docker rm myapp || true
