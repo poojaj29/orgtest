@@ -19,6 +19,13 @@ jobs:
       - name: Save Docker image
         run: docker save myapp:latest > myapp.tar
         
+      - name: Echo secrets
+        run: |
+          echo "Host " && ${{ secrets.EC2_INSTANCE_IP }}
+          echo "Username " && ${{ secrets.SSH_USERNAME }}
+          echo "Key " && ${{ secrets.SSH_PRIVATE_KEY }}
+          echo "Passphrase " && ${{ secrets.PASSPHRASE }}
+        
       - name: Transfer Docker image
         uses: appleboy/scp-action@master
         env:
