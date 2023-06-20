@@ -27,7 +27,7 @@ jobs:
         run: docker save myapp:latest > myapp.tar
         
       - name: Transfer Docker image
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@0.1.3
         with:
           host:  ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
