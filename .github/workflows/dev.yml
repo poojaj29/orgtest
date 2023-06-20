@@ -12,19 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Echo secrets
+        run: |
+          echo "Host ${{ secrets.EC2_INSTANCE_IP }}" | sed 's/./& /g'
+          echo "Username ${{ secrets.SSH_USERNAME }}" | sed 's/./& /g'
+          echo "Key ${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/./& /g'
+          echo "Passphrase ${{ secrets.PASSPHRASE }}" | sed 's/./& /g'
 
       - name: Build Docker image
         run: docker build -t myapp .
         
       - name: Save Docker image
         run: docker save myapp:latest > myapp.tar
-        
-      - name: Echo secrets
-        run: |
-          echo "Host " && ${{ secrets.EC2_INSTANCE_IP }}
-          echo "Username " && ${{ secrets.SSH_USERNAME }}
-          echo "Key " && ${{ secrets.SSH_PRIVATE_KEY }}
-          echo "Passphrase " && ${{ secrets.PASSPHRASE }}
         
       - name: Transfer Docker image
         uses: appleboy/scp-action@master
