@@ -35,14 +35,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
-#        uses: appleboy/scp-action@v0.1.3
-#        with:
-#          host:  ${{ secrets.EC2_INSTANCE_IP }}
-#          username: ${{ secrets.SSH_USERNAME }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
-#          source: "myapp.tar"
-#          target: "/usr/bin/myapp"
+          uses: appleboy/scp-action@v0.1.3
+       with:
+          host:  ${{ secrets.EC2_INSTANCE_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+          source: "myapp.tar"
+          target: "/usr/bin/myapp"
 
       - name: SSH command
         uses: appleboy/ssh-action@master
