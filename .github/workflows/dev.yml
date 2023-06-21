@@ -32,6 +32,11 @@ jobs:
           host:  ${{ secrets.EC2_INSTANCE_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          User root
+          IdentityFile ~/.ssh/github-actions
+          IdentitiesOnly=yes
+          PreferredAuthentications publickey
+          PasswordAuthentication no
           source: "myapp.tar"
           target: "/usr/bin/myapp"
 
