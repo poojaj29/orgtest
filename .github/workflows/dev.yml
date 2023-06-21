@@ -40,4 +40,4 @@ jobs:
             sudo docker stop myapp || true
             sudo docker rm myapp || true
             sudo docker load -i myapp.tar
-            sudo docker run --name organization-service -dp 3006:3006 --env-file .env myapp.tar
+            sudo docker run --name organization-service -dp 3006:3006 --env-file .env myapp
