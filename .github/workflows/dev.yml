@@ -29,8 +29,8 @@ jobs:
       - name: Transfer Docker image
         uses: appleboy/scp-action@v0.1.4
         with:
-          host:  ${{ secrets.EC2_INSTANCE_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host:  65.2.9.18
+          username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "myapp.tar"
           target: "/usr/bin/myapp"
