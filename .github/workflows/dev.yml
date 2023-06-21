@@ -23,7 +23,7 @@ jobs:
       - name: Build Docker image
         run: docker build -t myapp .
 		
-	    - name: Save Docker image
+      - name: Save Docker image
         run: docker save myapp:latest > myapp.tar 	  
           
       - name: Transfer Docker image
