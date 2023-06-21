@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
+            cd /usr/bin/myapp
             docker stop myapp || true
             docker rm myapp || true
             docker load -i ~/myapp.tar
