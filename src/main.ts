@@ -25,7 +25,7 @@ app.setGlobalPrefix('organization')
   app.useGlobalPipes(new ValidationPipe());
   const swaggerConfig = new DocumentBuilder()
     .setTitle('NDI Organization Service')
-    .setDescription('NDI Organization Service Module')
+    .setDescription('testing CICD')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
