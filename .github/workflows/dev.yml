@@ -13,13 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Echo secrets
-        run: |
-          echo "Host ${{ secrets.EC2_INSTANCE_IP }}" | sed 's/./& /g'
-          echo "Username ${{ secrets.SSH_USERNAME }}" | sed 's/./& /g'
-          echo "Key ${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/./& /g'
-          echo "Passphrase ${{ secrets.SERVER_PASSPHRASE }}" | sed 's/./& /g'
-
       - name: Build Docker image
         run: docker build -t myapp .
         
@@ -44,7 +37,7 @@ jobs:
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
             cd /usr/bin/myapp
-            docker stop myapp || true
-            docker rm myapp || true
-            docker load -i ~/myapp.tar
-            docker run -d --name myapp -p 80:80 myapp:latest
+            sudo docker stop myapp || true
+            sudo docker rm myapp || true
+            sudo docker load -i ~/myapp.tar
+            sudo docker run -d --name myapp -p 80:80 myapp:latest
