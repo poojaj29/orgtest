@@ -20,20 +20,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Build Docker image
-        run: docker build -t myapp .
-		
-      - name: Save Docker image
-        run: docker save myapp:latest > myapp.tar 	  
-          
-      - name: Transfer Docker image
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host:  ${{ secrets.EC2_INSTANCE_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "myapp.tar"
-          target: "/usr/bin/myapp"
+      - name: Build and transfer Docker image
+        run: |
+          docker build -t myapp .
+          docker save myapp:latest > myapp.tar
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} myapp.tar ${{ secrets.SSH_USERNAME }}@${{ secrets.EC2_INSTANCE_IP }}:~/
 
       - name: SSH command
         uses: appleboy/ssh-action@master
