@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Build Docker image
-        run: docker build -t organization-service .
+        run: docker build -t myapp .
         
       - name: Save Docker image
-        run: docker save organization-service:latest > organization-service.tar
+        run: docker save myapp:latest > myapp.tar
         
       - name: Transfer Docker image
         uses: appleboy/scp-action@v0.1.4
@@ -25,8 +25,8 @@ jobs:
           host:  65.2.9.18
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "organization-service.tar"
-          target: "/usr/bin/organization-service"
+          source: "myapp.tar"
+          target: "/usr/bin/myapp"
 
       - name: SSH command
         uses: appleboy/ssh-action@master
@@ -36,6 +36,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
-            cd /usr/bin/organization-service
-            sudo docker load -i organization-service.tar
-            sudo docker run --name organization-service -dp 3006:3006 --env-file .env organization-service
+            cd /usr/bin/myapp
+            sudo docker load -i myapp.tar
+            sudo docker run --name myapp -dp 3006:3006 --env-file .env myapp
