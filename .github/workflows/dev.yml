@@ -37,5 +37,7 @@ jobs:
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           script: |
             cd /usr/bin/myapp
+            sudo docker stop myapp || true
+            sudo docker rm -rf myapp || true
             sudo docker load -i myapp.tar
             sudo docker run --name myapp -dp 3006:3006 --env-file .env myapp
